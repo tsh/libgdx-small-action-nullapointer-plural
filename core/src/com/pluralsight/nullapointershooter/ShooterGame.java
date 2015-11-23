@@ -12,7 +12,7 @@ public class ShooterGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;
 	private OrthographicCamera camera;
-    private Sprite spaceshipSprite;
+	private AnimatedSprite spaceshipAnimated;
 	
 	@Override
 	public void create () {
@@ -21,9 +21,10 @@ public class ShooterGame extends ApplicationAdapter {
 
 		batch = new SpriteBatch();
 		background = new Texture(Gdx.files.internal("space-background.png"));
-        Texture spaceshipTexture = new Texture(Gdx.files.internal("spaceship.png"));
-        spaceshipSprite = new Sprite(spaceshipTexture);
-        spaceshipSprite.setPosition((800 / 2) - (spaceshipSprite.getWidth() / 2), 0);
+        Texture spaceshipTexture = new Texture(Gdx.files.internal("spaceship-spritesheet.png"));
+        Sprite spaceshipSprite = new Sprite(spaceshipTexture);
+        spaceshipAnimated = new AnimatedSprite(spaceshipSprite);
+        spaceshipAnimated.setPosition(800/2, 0);
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class ShooterGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(background, 0, 0);
-        spaceshipSprite.draw(batch);
+        spaceshipAnimated.draw(batch);
 		batch.end();
 	}
 }

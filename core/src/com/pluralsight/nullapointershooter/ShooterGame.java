@@ -35,5 +35,12 @@ public class ShooterGame extends ApplicationAdapter {
 		batch.draw(background, 0, 0);
         spaceshipAnimated.draw(batch);
 		batch.end();
+
+		if (Gdx.input.isTouched())
+		{
+			int xTouch = Gdx.input.getX();
+			int yTouch = Gdx.input.getY();
+			System.out.println(xTouch + " "+ yTouch);
+		}
 	}
 }

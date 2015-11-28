@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ShooterGame extends ApplicationAdapter {
+    public static final int SCREEN_WIDTH = 800;
+    public static final int SCREEN_HEIGHT = 480;
+
     SpriteBatch batch;
     Texture background;
     private OrthographicCamera camera;
@@ -17,7 +20,7 @@ public class ShooterGame extends ApplicationAdapter {
     @Override
     public void create() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         batch = new SpriteBatch();
         background = new Texture(Gdx.files.internal("space-background.png"));

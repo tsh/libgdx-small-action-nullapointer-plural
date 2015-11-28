@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public class AnimatedSprite {
     private static final int FRAMES_COL = 2;
     private static final int FRAMES_ROW = 2;
+    public static final int SHiP_SPEED = 300;
 
     private Sprite sprite;
     private Animation animation;
@@ -17,12 +19,13 @@ public class AnimatedSprite {
     private TextureRegion currentFrame;
 
     private float stateTime;
+    private Vector2 velocity = new Vector2();
 
     public AnimatedSprite(Sprite sprite)
     {
         this.sprite = sprite;
         Texture texture = sprite.getTexture();
-        TextureRegion[][] temp = TextureRegion.split(texture, texture.getWidth()/ FRAMES_COL, texture.getHeight() / FRAMES_ROW);
+        TextureRegion[][] temp = TextureRegion.split(texture, (int) getSpriteWidth(), texture.getHeight() / FRAMES_ROW);
         frames = new TextureRegion[FRAMES_COL * FRAMES_ROW];
         int index = 0;
         for (int i=0; i<FRAMES_ROW; i++)
@@ -47,7 +50,38 @@ public class AnimatedSprite {
 
     public void setPosition(float x, float y)
     {
-        float widthOffset = sprite.getWidth() / FRAMES_COL;
-        sprite.setPosition(x - widthOffset / 2, y);
+        sprite.setPosition(x - getSpriteCenterOffset(), y);
     }
+
+    public float getSpriteCenterOffset()
+    {
+        return getSpriteWidth() / 2;
+    }
+
+    private float getSpriteWidth()
+    {
+        return sprite.getWidth() / FRAMES_COL;
+    }
+
+    public void moveRight()
+    {
+        velocity = new Vector2(SHiP_SPEED, 0);
+    }
+
+    public void moveLeft()
+    {
+        velocity = new Vector2(-SHiP_SPEED, 0);
+    }
+
+    public int getX()
+    {
+        return (int) (sprite.getX() + getSpriteCenterOffset());
+    }
+
+    public void move()
+    {
+        int xMovement = (int) (velocity.x * Gdx.graphics.getDeltaTime());
+        sprite.setPosition(sprite.getX() + xMovement, sprite.getY());
+    }
+
 }

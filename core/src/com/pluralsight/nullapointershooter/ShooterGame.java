@@ -2,6 +2,7 @@ package com.pluralsight.nullapointershooter;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +19,7 @@ public class ShooterGame extends ApplicationAdapter {
     private OrthographicCamera camera;
     private AnimatedSprite spaceshipAnimated;
     private ShotManager shotManager;
+    private Music gameMusic;
 
     @Override
     public void create() {
@@ -33,6 +35,11 @@ public class ShooterGame extends ApplicationAdapter {
 
         Texture shotTexture = new Texture(Gdx.files.internal("shot-spritesheet.png"));
         shotManager = new ShotManager(shotTexture);
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game-music.mp3"));
+        gameMusic.setVolume(.25f);
+        gameMusic.setLooping(true);
+        gameMusic.play();
     }
 
     @Override

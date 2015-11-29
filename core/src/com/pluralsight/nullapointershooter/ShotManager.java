@@ -1,6 +1,7 @@
 package com.pluralsight.nullapointershooter;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +21,7 @@ public class ShotManager {
     private final Texture shotTexture;
     private List<AnimatedSprite> shots = new ArrayList<AnimatedSprite>();
     private float timeSinceLastShot;
+    private Sound laser = Gdx.audio.newSound(Gdx.files.internal("laser-bolt.mp3"));
 
     public ShotManager(Texture shotTexture){
         this.shotTexture = shotTexture;
@@ -35,6 +37,7 @@ public class ShotManager {
             newShotAnimated.setVelocity(new Vector2(0, SHOT_SPEED));
             shots.add(newShotAnimated);
             timeSinceLastShot = 0f;
+            laser.play();
         }
 
     }

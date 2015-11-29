@@ -81,7 +81,8 @@ public class AnimatedSprite {
     public void move()
     {
         int xMovement = (int) (velocity.x * Gdx.graphics.getDeltaTime());
-        sprite.setPosition(sprite.getX() + xMovement, sprite.getY());
+        int yMovement = (int) (velocity.y * Gdx.graphics.getDeltaTime());
+        sprite.setPosition(sprite.getX() + xMovement, sprite.getY() + yMovement);
 
         if (sprite.getX() < 0){
             sprite.setX(0);
@@ -91,6 +92,11 @@ public class AnimatedSprite {
             sprite.setX(ShooterGame.SCREEN_WIDTH - 100 - getSpriteWidth());
             velocity.x = 0;
         }
+    }
+
+    public void setVelocity(Vector2 velocity)
+    {
+        this.velocity = velocity;
     }
 
 }

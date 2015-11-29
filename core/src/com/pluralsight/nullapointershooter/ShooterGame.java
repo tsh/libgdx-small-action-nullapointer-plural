@@ -16,6 +16,7 @@ public class ShooterGame extends ApplicationAdapter {
     Texture background;
     private OrthographicCamera camera;
     private AnimatedSprite spaceshipAnimated;
+    private ShotManager shotManager;
 
     @Override
     public void create() {
@@ -28,6 +29,9 @@ public class ShooterGame extends ApplicationAdapter {
         Sprite spaceshipSprite = new Sprite(spaceshipTexture);
         spaceshipAnimated = new AnimatedSprite(spaceshipSprite);
         spaceshipAnimated.setPosition(800 / 2, 0);
+
+        Texture shotTexture = new Texture(Gdx.files.internal("shot-spritesheet.png"));
+        shotManager = new ShotManager(shotTexture);
     }
 
     @Override
@@ -37,10 +41,12 @@ public class ShooterGame extends ApplicationAdapter {
         batch.begin();
         batch.draw(background, 0, 0);
         spaceshipAnimated.draw(batch);
+        shotManager.draw(batch);
         batch.end();
 
         handleInput();
         spaceshipAnimated.move();
+        shotManager.update();
     }
 
     public void handleInput() {
@@ -51,6 +57,8 @@ public class ShooterGame extends ApplicationAdapter {
             } else {
                 spaceshipAnimated.moveLeft();
             }
+
+            shotManager.firePlayerShot(spaceshipAnimated.getX());
         }
     }
 }

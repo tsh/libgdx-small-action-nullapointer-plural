@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 public class ShooterGame extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 800;
@@ -51,8 +52,10 @@ public class ShooterGame extends ApplicationAdapter {
 
     public void handleInput() {
         if (Gdx.input.isTouched()) {
-            int xTouch = Gdx.input.getX();
-            if (xTouch > spaceshipAnimated.getX()) {
+            Vector3 touchPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPosition);
+
+            if (touchPosition.x > spaceshipAnimated.getX()) {
                 spaceshipAnimated.moveRight();
             } else {
                 spaceshipAnimated.moveLeft();

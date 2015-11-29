@@ -78,6 +78,11 @@ public class AnimatedSprite {
         return (int) (sprite.getX() + getSpriteCenterOffset());
     }
 
+    public int getY()
+    {
+        return (int) sprite.getY();
+    }
+
     public void move()
     {
         int xMovement = (int) (velocity.x * Gdx.graphics.getDeltaTime());

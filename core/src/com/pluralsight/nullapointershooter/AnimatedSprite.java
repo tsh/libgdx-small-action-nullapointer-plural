@@ -104,4 +104,12 @@ public class AnimatedSprite {
         this.velocity = velocity;
     }
 
+    public int getWidth(){
+        return (int) getSpriteWidth();
+    }
+
+    public int getHeight(){
+        return (int) sprite.getHeight() / FRAMES_ROW;
+    }
+
 }

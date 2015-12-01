@@ -91,11 +91,9 @@ public class AnimatedSprite {
 
         if (sprite.getX() < 0){
             sprite.setX(0);
-            velocity.x = 0;
         }
         if (sprite.getX() + getSpriteWidth() > ShooterGame.SCREEN_WIDTH - 100){
             sprite.setX(ShooterGame.SCREEN_WIDTH - 100 - getSpriteWidth());
-            velocity.x = 0;
         }
     }
 
@@ -110,6 +108,10 @@ public class AnimatedSprite {
 
     public int getHeight(){
         return (int) sprite.getHeight() / FRAMES_ROW;
+    }
+
+    public void changeDirection(){
+        velocity.x = -velocity.x;
     }
 
 }

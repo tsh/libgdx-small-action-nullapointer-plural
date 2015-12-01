@@ -35,10 +35,11 @@ public class ShooterGame extends ApplicationAdapter {
         spaceshipAnimated.setPosition(800 / 2, 0);
 
         Texture shotTexture = new Texture(Gdx.files.internal("shot-spritesheet.png"));
-        shotManager = new ShotManager(shotTexture);
+        Texture enemyShotTexture = new Texture(Gdx.files.internal("enemy-shot-spritesheet.png"));
+        shotManager = new ShotManager(shotTexture, enemyShotTexture);
 
         Texture enemyTexture = new Texture(Gdx.files.internal("enemy-spritesheet.png"));
-        enemy = new Enemy(enemyTexture);
+        enemy = new Enemy(enemyTexture, shotManager);
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game-music.mp3"));
         gameMusic.setVolume(.25f);
@@ -59,6 +60,7 @@ public class ShooterGame extends ApplicationAdapter {
 
         handleInput();
         spaceshipAnimated.move();
+        enemy.update();
         shotManager.update();
     }
 

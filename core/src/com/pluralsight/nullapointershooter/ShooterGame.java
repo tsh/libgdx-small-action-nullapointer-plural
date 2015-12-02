@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
@@ -22,6 +23,7 @@ public class ShooterGame extends ApplicationAdapter {
     private Music gameMusic;
     private Enemy enemy;
     private CollisionManager collisionManager;
+    private boolean isGameOver = false;
 
     @Override
     public void create() {
@@ -56,21 +58,37 @@ public class ShooterGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(background, 0, 0);
+
+        if (isGameOver){
+            BitmapFont font = new BitmapFont();
+            font.draw(batch, "PLAYER HIT", 200, 200);
+        }
+
         spaceshipAnimated.draw(batch);
         enemy.draw(batch);
         shotManager.draw(batch);
         batch.end();
 
         handleInput();
-        spaceshipAnimated.move();
-        enemy.update();
-        shotManager.update();
+        if (!isGameOver) {
+            spaceshipAnimated.move();
+            enemy.update();
+            shotManager.update();
+        }
 
         collisionManager.handleCollisions();
+
+        if (spaceshipAnimated.isDead()){
+            isGameOver = true;
+        }
     }
 
     public void handleInput() {
         if (Gdx.input.isTouched()) {
+            if (isGameOver){
+                spaceshipAnimated.setDead(false);
+                isGameOver = false;
+            }
             Vector3 touchPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPosition);
 

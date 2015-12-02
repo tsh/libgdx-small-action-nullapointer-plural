@@ -14,6 +14,13 @@ public class CollisionManager {
 
     public void handleCollisions(){
         handleEnemyShot();
+        handlePlayerShot();
+    }
+
+    private void handlePlayerShot(){
+        if(shotManager.enemyShotTouches(spaceshipAnimated.getBoundingBox())){
+            spaceshipAnimated.setDead(true);
+        }
     }
 
     public void handleEnemyShot(){

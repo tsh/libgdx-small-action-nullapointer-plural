@@ -104,6 +104,14 @@ public class ShotManager {
     }
 
     public boolean playerShotTouches(Rectangle boundingBox){
+        return shotTouches(shots, boundingBox);
+    }
+
+    public boolean enemyShotTouches(Rectangle boundingBox){
+        return shotTouches(enemyShots, boundingBox);
+    }
+
+    public boolean shotTouches(List<AnimatedSprite> shots, Rectangle boundingBox){
         Iterator<AnimatedSprite> i = shots.iterator();
         while(i.hasNext()){
             AnimatedSprite shot = i.next();

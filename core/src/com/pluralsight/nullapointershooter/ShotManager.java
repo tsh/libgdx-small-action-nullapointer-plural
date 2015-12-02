@@ -5,6 +5,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class ShotManager {
     }
 
     public void fireEnemyShot(int enemyCenterXLocation){
-        Sprite newShot = new Sprite(enemyShotTexture);
+        Sprite newShot = new Sprite(enemyShotTexture    );
         AnimatedSprite newShotAnimated = new AnimatedSprite(newShot);
         newShotAnimated.setPosition(enemyCenterXLocation, ENEMY_SHOT_Y_OFFSET);
         newShotAnimated.setVelocity(new Vector2(0, -SHOT_SPEED));
@@ -99,6 +101,19 @@ public class ShotManager {
         {
             shot.draw(batch);
         }
+    }
+
+    public boolean playerShotTouches(Rectangle boundingBox){
+        Iterator<AnimatedSprite> i = shots.iterator();
+        while(i.hasNext()){
+            AnimatedSprite shot = i.next();
+            Rectangle intersection = new Rectangle(0,0,0,0);
+            if (Intersector.intersectRectangles(shot.getBoundingBox(), boundingBox, intersection)){
+                i.remove();
+                return true;
+            }
+        }
+        return false;
     }
 
 }

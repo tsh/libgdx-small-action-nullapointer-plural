@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class AnimatedSprite {
@@ -20,6 +21,7 @@ public class AnimatedSprite {
 
     private float stateTime;
     private Vector2 velocity = new Vector2();
+    private boolean isDead = false;
 
     public AnimatedSprite(Sprite sprite)
     {
@@ -112,6 +114,18 @@ public class AnimatedSprite {
 
     public void changeDirection(){
         velocity.x = -velocity.x;
+    }
+
+    public Rectangle getBoundingBox(){
+        return new Rectangle(sprite.getX(), sprite.getY(), getWidth(), getHeight());
+    }
+
+    public void setDead(boolean isDead){
+        this.isDead = isDead;
+    }
+
+    public boolean isDead(){
+        return this.isDead;
     }
 
 }

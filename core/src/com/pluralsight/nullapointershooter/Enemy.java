@@ -1,11 +1,13 @@
 package com.pluralsight.nullapointershooter;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
@@ -16,6 +18,7 @@ public class Enemy {
     private final Texture enemyTexture;
     private AnimatedSprite animatedSprite;
     private final ShotManager shotManager;
+    private float spawnTimeout = 0f;
 
     public Enemy(Texture enemyTexture, ShotManager shotManager){
         this.enemyTexture = enemyTexture;
@@ -29,6 +32,7 @@ public class Enemy {
         int xPosition = createRandomPosition();
         animatedSprite.setPosition(xPosition, ShooterGame.SCREEN_HEIGHT - animatedSprite.getHeight());
         animatedSprite.setVelocity(new Vector2(ENEMY_SPEED, 0));
+        animatedSprite.setDead(false);
     }
 
     private int createRandomPosition(){
@@ -38,18 +42,29 @@ public class Enemy {
     }
 
     public void draw (SpriteBatch batch){
-        animatedSprite.draw(batch);
+        if (!animatedSprite.isDead()) {
+            animatedSprite.draw(batch);
+        }
     }
 
     public void update(){
-        if (shouldChangeDirection()){
-            animatedSprite.changeDirection();
+        if (animatedSprite.isDead()){
+            spawnTimeout -= Gdx.graphics.getDeltaTime();
+            if (spawnTimeout <= 0){
+                spawn();
+            }
         }
+        else
+        {
+            if (shouldChangeDirection()) {
+                animatedSprite.changeDirection();
+            }
 
-        if (shouldFire()){
-            shotManager.fireEnemyShot(animatedSprite.getX());
+            if (shouldFire()) {
+                shotManager.fireEnemyShot(animatedSprite.getX());
+            }
+            animatedSprite.move();
         }
-        animatedSprite.move();
     }
 
     public boolean shouldChangeDirection(){
@@ -60,6 +75,15 @@ public class Enemy {
     public boolean shouldFire(){
         Random random = new Random();
         return random.nextInt(51) == 0;
+    }
+
+    public Rectangle getBoundingBox(){
+        return animatedSprite.getBoundingBox();
+    }
+
+    public void hit(){
+        animatedSprite.setDead(true);
+        spawnTimeout = 2f;
     }
 
 }
